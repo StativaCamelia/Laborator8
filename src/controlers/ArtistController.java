@@ -25,6 +25,24 @@ public class ArtistController {
         }
     }
 
+    public String getNameById(int id){
+        String artistName = new String();
+        try {
+            PreparedStatement pstm = con.prepareStatement("Select * from Artists where id = ?");
+            pstm.setInt(1,id);
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()) {
+                artistName = rs.getString("name");
+            }
+            rs.close();
+        }
+        catch (SQLException e){
+            System.out.println("Nu s-a putut gasi artistul");
+            e.printStackTrace();
+        }
+        return artistName;
+    }
+
     public void findByName(String name){
         try {
             PreparedStatement pstm = con.prepareStatement("Select * from Artists where name = ?");
@@ -38,7 +56,7 @@ public class ArtistController {
             rs.close();
         }
         catch (SQLException e){
-            System.out.println("Nu s-a putut realiza adaugarea unui nou artist");
+            System.out.println("Nu s-a putut gasi artistul");
             e.printStackTrace();
         }
     }
@@ -62,6 +80,7 @@ public class ArtistController {
         }
         return minId;
     }
+
 
     public int getMaxId(){
         int minId = 1;
